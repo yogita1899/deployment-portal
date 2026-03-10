@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Build') {
+            steps {
+                sh 'docker build -t SERVICE_NAME .'
+            }
+        }
+
+        stage('Push') {
+            steps {
+                sh 'docker push ECR_REPO'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                sh 'kubectl apply -f deployment.yaml'
+            }
+        }
+    }
+}
